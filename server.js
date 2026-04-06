@@ -26,21 +26,22 @@ app.set('views', path.join(__dirname, 'views'));
 // ✅ MongoDB Connection
 // ============================
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/plantDB')
-    .then(async () => {
-        console.log("✅ MongoDB Connected");
+// console.log(process.env.MONGODB_URI)
+// mongoose.connect(process.env.MONGODB_URI)
+//     .then(async () => {
+//         console.log("✅ MongoDB Connected");
 
-        await Plant.collection.createIndex({
-            scientificName: "text",
-            localName: "text",
-            englishName: "text",
-            uses: "text"
-        });
+//         await Plant.collection.createIndex({
+//             scientificName: "text",
+//             localName: "text",
+//             englishName: "text",
+//             uses: "text"
+//         });
 
-        console.log("✅ Text indexes created");
+//         console.log("✅ Text indexes created");
 
-    })
-    .catch(err => console.log("MongoDB Error:", err));
+//     })
+//     .catch(err => console.log("MongoDB Error:", err));
 
 
 // ============================
@@ -174,7 +175,22 @@ app.post('/insert-data', async (req, res) => {
 // ============================
 // 🚀 START SERVER
 // ============================
+mongoose.connect(process.env.MONGODB_URI)
+    .then(async () => {
+        console.log("✅ MongoDB Connected");
 
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+        await Plant.collection.createIndex({
+            scientificName: "text",
+            localName: "text",
+            englishName: "text",
+            uses: "text"
+        });
+
+        console.log("✅ Text indexes created");
+
+        app.listen(PORT, () => {
+            console.log(`🚀 Server running on http://localhost:${PORT}`);
+        });
+
+    })
+    .catch(err => console.log("MongoDB Error:", err));

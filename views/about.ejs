@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title || 'About PRATHA Project' %></title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #f5f9f0 0%, #e8f5e9 100%);
+            min-height: 100vh;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background: linear-gradient(90deg, #2c7744, #4da167, #a3de83);
+            border-bottom: 3px solid #d8e3c8;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            padding-top: 0.4rem;
+            padding-bottom: 0.4rem;
+        }
+        
+        .navbar-brand {
+            color: #ffffff !important;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-weight: 300;
+            font-size: 1.3rem;
+            letter-spacing: 0.4px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+            margin-right: 1rem;
+            font-style: italic;
+        }
+        
+        .nav-link {
+            color: #f8fff8 !important;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .nav-link:hover {
+            transform: translateY(-2px);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .nav-content {
+            margin-right: 50px;
+        }
+        
+        /* About Section - Only Mission */
+        .about-section {
+            max-width: 900px;
+            margin: 80px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .about-section h2 {
+            color: #2c7744;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        
+        .about-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .about-section strong {
+            color: #2c7744;
+        }
+        
+        /* Footer */
+        .footer {
+            background: linear-gradient(90deg, #2c7744, #4da167, #a3de83);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            .about-section {
+                margin: 40px 20px;
+                padding: 25px;
+            }
+            
+            .about-section h2 {
+                font-size: 1.5rem;
+            }
+            
+            .about-section p {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg shadow-sm fixed-top">
+    <div class="nav-content container-fluid px-4">
+        <div class="d-flex align-items-center">
+            <img src="/assets/logo.png" alt="logo" width="60" height="60" class="me-3 logo-img" onerror="this.style.display='none'">
+            <a class="navbar-brand fw-semibold fs-5" href="/">
+                Center for Indian Knowledge Systems, IIT Guwahati
+            </a>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav" aria-controls="navbarNav"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Herbal-Ai">
+                        <i class="fas fa-robot"></i> HerbalAI Chat
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ✅ ONLY MISSION SECTION -->
+<div class="about-section">
+    <h2><i class="fas fa-leaf"></i> Our Mission 🌿</h2>
+    
+    <p>
+        The <strong>PRATHA Project</strong> aims to bridge traditional wisdom with modern scientific approaches by recording, studying, and analyzing Assam's indigenous health systems. We collaborate with local healers, researchers, and students to create a comprehensive digital repository of medicinal plants, therapies, and ethnomedicinal practices.
+    </p>
+    
+    <p>
+        This initiative is supported by <strong>AYUSH, Government of Assam</strong> in collaboration with <strong>Centre for Indian Knowledge Systems (CIKS), IIT Guwahati</strong>, aligning with the broader goal of promoting sustainable, community-based healthcare solutions.
+    </p>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p class="mb-0">&copy; <%= new Date().getFullYear() %> Center for Indian Knowledge Systems, IIT Guwahati. All rights reserved.</p>
+        <small>Preserving traditional wisdom for future generations</small>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title || 'PRATHA Project - Plant Search' %></title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+    /* Global Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body { 
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        padding: 0;
+        padding-top: 80px !important;
+        background: linear-gradient(135deg, #f5f9f0 0%, #e8f5e9 100%);
+        min-height: 100vh;
+    }
+    
+    /* Navbar Styles */
+    .navbar {
+        background: linear-gradient(90deg, #2c7744, #4da167, #a3de83);
+        border-bottom: 3px solid #d8e3c8;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        padding-top: 0.4rem;
+        padding-bottom: 0.4rem;
+    }
+    
+    .navbar-brand {
+        color: #ffffff !important;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-weight: 300;
+        font-size: 1.3rem;
+        letter-spacing: 0.4px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        margin-right: 1rem;
+        font-style: italic;
+    }
+    
+    .nav-link {
+        color: #f8fff8 !important;
+        margin-left: 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+    }
+    
+    .nav-link:hover {
+        transform: translateY(-2px);
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .nav-content {
+        margin-right: 50px;
+    }
+    
+    /* Hero Section */
+    .hero-section {
+        height: 85vh;
+        background: linear-gradient(rgba(0, 60, 0, 0.45), rgba(0, 60, 0, 0.45)), url('/assets/backgroung_img.png') center/cover no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-section::before {
+        content: "";
+        position: absolute;
+        top: 0; 
+        left: 0;
+        width: 100%; 
+        height: 100%;
+        backdrop-filter: blur(2px);
+    }
+    
+    .hero-section .container {
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Animations */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(15px);
+        animation: fadeUp 1.5s ease forwards;
+    }
+    
+    .fade-in-delay {
+        opacity: 0;
+        transform: translateY(15px);
+        animation: fadeUp 1.8s ease forwards;
+        animation-delay: 0.3s;
+    }
+    
+    @keyframes fadeUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Search Section */
+    .search-section {
+        position: relative;
+        top: -6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+    }
+    
+    .search-content {
+        background: white;
+        border-radius: 30px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        width: 90%;
+        max-width: 800px;
+    }
+    
+    .search-content input {
+        border-radius: 25px;
+        border: 2px solid #c9e7d1;
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+    
+    .search-content input:focus {
+        border-color: #2c7744;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(44, 119, 68, 0.1);
+    }
+    
+    /* Language Buttons */
+    .lang-btn {
+        padding: 8px 16px;
+        margin: 5px;
+        cursor: pointer;
+        background: linear-gradient(135deg, #2c7744, #4da167);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .lang-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(44, 119, 68, 0.3);
+    }
+    
+    /* Herbal Chat Section */
+    .herbal-chat-section {
+        text-align: center;
+        padding: 40px 20px;
+        background: linear-gradient(135deg, #f8fff8 0%, #e8f5e9 100%);
+        margin: 20px auto;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 900px;
+        box-shadow: 0 15px 35px rgba(44, 119, 68, 0.1);
+    }
+    
+    .herbal-chat-btn {
+        background: linear-gradient(135deg, #2c7744, #4da167);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(44, 119, 68, 0.3);
+    }
+    
+    .herbal-chat-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(44, 119, 68, 0.4);
+        color: white;
+    }
+    
+    .herbal-chat-tip {
+        margin-top: 15px;
+        color: #2c7744;
+        font-size: 0.95rem;
+    }
+    
+    /* Plant Container - 3 per row */
+    .plant-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        padding: 40px 20px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    @media (max-width: 1024px) {
+        .plant-container {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            padding: 30px 20px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .plant-container {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 20px 15px;
+        }
+    }
+    
+    .plant-box {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    
+    .plant-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* 🔥 NEW - Hide plants initially */
+    .plant-box.hidden-plant {
+        display: none;
+    }
+    
+    .plant-img {
+        width: 100%;
+        height: 220px;
+        overflow: hidden;
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    
+    .plant-img.loading {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+    }
+    
+    @keyframes loading {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
+    
+    .plant-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .plant-box:hover .plant-img img {
+        transform: scale(1.05);
+    }
+    
+    .plant-detail {
+        padding: 20px;
+        flex: 1;
+    }
+    
+    .title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #2c7744;
+        margin-bottom: 12px;
+        border-left: 3px solid #4da167;
+        padding-left: 12px;
+    }
+    
+    .other-names, .other-text {
+        font-size: 0.85rem;
+        color: #555;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+    
+    .other-names b, .other-text b {
+        color: #2c7744;
+        font-weight: 600;
+    }
+    
+    .uses {
+        background: #e8f5e9;
+        padding: 12px;
+        border-radius: 10px;
+        margin: 12px 0;
+        font-size: 0.85rem;
+        line-height: 1.5;
+        color: #2c3e2b;
+        max-height: 120px;
+        overflow-y: auto;
+    }
+    
+    .reference {
+        margin-top: 10px;
+        font-size: 0.8rem;
+        color: #666;
+        padding: 8px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        word-break: break-word;
+    }
+    
+    .uses::-webkit-scrollbar {
+        width: 5px;
+    }
+    
+    .uses::-webkit-scrollbar-track {
+        background: #d4e6d4;
+        border-radius: 10px;
+    }
+    
+    .uses::-webkit-scrollbar-thumb {
+        background: #2c7744;
+        border-radius: 10px;
+    }
+    
+    .plant-image-source {
+        padding: 8px 12px;
+        font-size: 0.7rem;
+        background: #f8f9fa;
+        border-top: 1px solid #e0e0e0;
+    }
+    
+    .plant-image-source a {
+        color: #2c7744;
+        text-decoration: none;
+    }
+    
+    .plant-image-source a:hover {
+        text-decoration: underline;
+    }
+    
+    /* 🔥 SHOW MORE BUTTON STYLES */
+    .show-more-container {
+        text-align: center;
+        margin: 30px 0 50px 0;
+    }
+    
+    .show-more-btn {
+        background: linear-gradient(135deg, #2c7744, #4da167);
+        color: white;
+        border: none;
+        padding: 14px 40px;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(44, 119, 68, 0.3);
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .show-more-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(44, 119, 68, 0.4);
+        background: linear-gradient(135deg, #1e5a33, #3d8a55);
+    }
+    
+    .show-more-btn:active {
+        transform: translateY(0);
+    }
+    
+    /* Footer */
+    .footer {
+        background: linear-gradient(90deg, #2c7744, #4da167, #a3de83);
+        font-size: 0.95rem;
+        letter-spacing: 0.3px;
+        border-top: 3px solid #d8e3c8;
+        box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.15);
+        margin-top: 50px;
+    }
+    
+    @media (max-width: 768px) {
+        body {
+            padding-top: 70px !important;
+        }
+        
+        .hero-section {
+            height: 60vh;
+            padding-top: 110px;
+        }
+        
+        .hero-section h1 {
+            font-size: 1.5rem;
+            line-height: 1.3;
+        }
+        
+        .hero-section p {
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        .search-section {
+            top: -40px;
+        }
+        
+        .herbal-chat-btn {
+            padding: 10px 25px;
+            font-size: 1rem;
+        }
+        
+        .show-more-btn {
+            padding: 10px 25px;
+            font-size: 1rem;
+        }
+    }
+    </style>
+</head>
+<body>
+
+<!-- Page Loader -->
+<div class="page-loader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+     background: white; z-index: 9999; display: flex; justify-content: center; 
+     align-items: center; flex-direction: column;">
+    <div class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-3">Loading medicinal plants database...</p>
+</div>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg shadow-sm fixed-top">
+    <div class="nav-content container-fluid px-4">
+        <div class="d-flex align-items-center">
+            <img src="/assets/logo.png" alt="logo" width="60" height="60" class="me-3 logo-img" onerror="this.style.display='none'">
+            <a class="navbar-brand fw-semibold fs-5" href="/">
+                Center for Indian Knowledge Systems, IIT Guwahati
+            </a>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav" aria-controls="navbarNav"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Herbal-Ai">HerbalAI Chat</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section id="home">
+    <header class="hero-section d-flex align-items-center text-center text-white">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-3 fade-in">Project for Recording Assam's Traditional Health Activities (PRATHA) 🌿</h1>
+            <p class="lead mx-auto mb-4 w-75 fade-in-delay">
+                Across the valleys and forests of Assam lives a legacy of healing wisdom passed down through generations.
+                At the Centre for Indian Knowledge Systems, IIT Guwahati, we are recording and preserving this treasure of traditional medicine and plant knowledge.
+                Through Project PRATHA, we aim to celebrate and safeguard this living heritage for research, education, and the well-being of future generations.
+            </p>
+        </div>
+    </header>
+</section>
+
+<!-- Herbal Chat Assistant Section -->
+<div id="chat-assistant" class="herbal-chat-section">
+    <a href="/Herbal-Ai" class="herbal-chat-btn">
+        <i class="fas fa-robot"></i> Start HerbalAI Chat Session
+    </a>
+    <p class="herbal-chat-tip">
+        <i class="fas fa-lightbulb"></i> Get instant information about <%= plantCount || '371+' %> Ayurvedic medicinal plants
+    </p>
+</div>
+
+<!-- Search Section -->
+<div class="search-section">
+    <div class="search-content text-center">
+        <input type="text" id="searchBox" class="form-control mb-3 mx-auto" style="max-width: 400px;" placeholder="🔎 Type to search Plant or Disease ...">
+        
+        <!-- Language Buttons -->
+        <div>
+            <button class="lang-btn" onclick="translatePage('hi')">हिन्दी</button>
+            <button class="lang-btn" onclick="translatePage('as')">অসমীয়া</button>
+            <button class="lang-btn" onclick="translatePage('ta')">தமிழ்</button>
+            <button class="lang-btn" onclick="translatePage('mr')">मराठी</button>
+            <button class="lang-btn" onclick="translatePage('en')">English</button>
+        </div>
+        
+        <!-- Hidden Google Translate -->
+        <div id="google_translate_element" style="display:none;"></div>
+    </div>
+</div>
+
+<!-- 🔥 PLANT CONTAINER - with Show More logic -->
+<div class="plant-container">
+  <% plants.forEach((p, index) => { %>
+    <% 
+      // Show only first 6 plants initially
+      const isHidden = index >= 15;
+    %>
+    <div class="plant-box <%= isHidden ? 'hidden-plant' : '' %>" data-plant-index="<%= index %>">
+
+      <!-- 🌿 IMAGE -->
+      <div class="plant-img">
+        <img 
+          src="<%= (p.picturePage && p.picturePage.trim() !== '') 
+                  ? '/Pictures/' + p.picturePage.trim() 
+                  : '/assets/default.png' %>" 
+          alt="<%= p.scientificName %>"
+          loading="lazy"
+          onerror="this.onerror=null; this.src='/assets/default.png';"
+        >
+      </div>
+
+      <!-- 📷 SOURCE -->
+      <% if (p.pictureSource || p.licenceUrl) { %>
+        <div class="plant-image-source">
+
+          <% if (p.pictureSource) { %>
+            <p>📷 Source: <%= p.pictureSource %></p>
+          <% } %>
+
+          <% if (p.pictureUrl && p.pictureUrl.startsWith('http')) { %>
+            <a href="<%= p.pictureUrl %>" target="_blank">
+              🔗 View Original Image
+            </a><br/>
+          <% } %>
+
+          <% if (p.licence && p.licenceUrl) { %>
+            <a href="<%= p.licenceUrl %>" target="_blank">
+              📜 License: <%= p.licence %>
+            </a>
+          <% } %>
+
+        </div>
+      <% } %>
+
+      <!-- 📋 DETAILS -->
+      <div class="plant-detail">
+
+        <div class="title">
+          🌿 <%= p.scientificName %>
+        </div>
+
+        <div class="other-names">
+          <b>Local:</b> <%= p.localName || 'N/A' %><br/>
+          <b>English:</b> <%= p.englishName || 'N/A' %><br/>
+          <b>Hindi:</b> <%= p.hindiName || 'N/A' %><br/>
+          <b>Assamese:</b> <%= p.assameseName || 'N/A' %>
+        </div>
+
+        <div class="other-text">
+          <b>Parts Used:</b> <%= p.partsUsed || 'N/A' %>
+        </div>
+
+        <div class="uses">
+          <b>Uses:</b> <%= p.uses || 'No information available' %>
+        </div>
+
+        <div class="reference">
+          <b>Reference:</b>
+          <% if (p.referenceUrl) { %>
+            <a href="<%= p.referenceUrl %>" target="_blank">
+              <%= p.reference || 'View reference' %>
+            </a>
+          <% } else { %>
+            <%= p.reference || 'No reference available' %>
+          <% } %>
+        </div>
+
+      </div>
+
+    </div>
+  <% }) %>
+</div>
+
+<!-- 🔥 SHOW MORE BUTTON -->
+<% if (plants.length > 6) { %>
+<div class="show-more-container">
+    <button id="showMoreBtn" class="show-more-btn">
+        <i class="fas fa-eye"></i> Show More Plants (<%= plants.length - 17 %>+ remaining)
+    </button>
+</div>
+<% } %>
+
+<!-- Footer -->
+<footer class="footer text-white text-center py-4 mt-5">
+    <div class="container">
+        <p class="mb-0">&copy; <%= new Date().getFullYear() %> Center for Indian Knowledge Systems, IIT Guwahati. All rights reserved.</p>
+        <p class="mb-0 small mt-2">Preserving traditional wisdom for future generations</p>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+    // Hide page loader when everything is loaded
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            const loader = document.querySelector('.page-loader');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(function() {
+                    loader.style.display = 'none';
+                }, 300);
+            }
+        }, 500);
+    });
+    
+    // Emergency hide loader after 3 seconds
+    setTimeout(function() {
+        const loader = document.querySelector('.page-loader');
+        if (loader && loader.style.display !== 'none') {
+            loader.style.display = 'none';
+        }
+    }, 3000);
+    
+    // Google Translate initialization
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+    }
+    
+    function translatePage(lang) {
+        var select = document.querySelector(".goog-te-combo");
+        if (select) {
+            select.value = lang;
+            select.dispatchEvent(new Event("change"));
+        } else {
+            console.log("Language selector not ready yet");
+            window.location.href = '/?lang=' + lang;
+        }
+    }
+    
+    // Client-side search functionality
+    function searchPlants() {
+        let query = document.getElementById("searchBox").value.toLowerCase().trim();
+        const plantBoxes = document.querySelectorAll('.plant-box');
+        let visibleCount = 0;
+        
+        const existingMsg = document.getElementById('noResultsMsg');
+        if (existingMsg) existingMsg.remove();
+        
+        if (query === '') {
+            plantBoxes.forEach(box => {
+                // Only show non-hidden plants initially
+                if (!box.classList.contains('hidden-plant') || box.style.display === 'block') {
+                    box.style.display = '';
+                    visibleCount++;
+                } else {
+                    box.style.display = 'none';
+                }
+            });
+        } else {
+            plantBoxes.forEach(box => {
+                const text = box.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    box.style.display = '';
+                    visibleCount++;
+                } else {
+                    box.style.display = 'none';
+                }
+            });
+        }
+        
+        if (visibleCount === 0) {
+            const container = document.querySelector('.plant-container');
+            const noResultsMsg = document.createElement('div');
+            noResultsMsg.id = 'noResultsMsg';
+            noResultsMsg.className = 'text-center p-4';
+            noResultsMsg.innerHTML = `
+                <div class="alert alert-info">
+                    <i class="fas fa-search"></i> No plants found matching "${query}"
+                </div>
+            `;
+            container.after(noResultsMsg);
+        }
+    }
+    
+    // 🔥 SHOW MORE BUTTON FUNCTIONALITY
+    const showMoreBtn = document.getElementById('showMoreBtn');
+    if (showMoreBtn) {
+        showMoreBtn.addEventListener('click', function() {
+            const hiddenPlants = document.querySelectorAll('.plant-box.hidden-plant');
+            
+            hiddenPlants.forEach(plant => {
+                plant.classList.remove('hidden-plant');
+                plant.style.display = ''; // Reset display
+            });
+            
+            // Hide the button after showing all
+            this.style.display = 'none';
+            
+            // Optional: Show a message
+            const container = document.querySelector('.plant-container');
+            const message = document.createElement('div');
+            message.className = 'text-center text-success mt-3';
+            message.innerHTML = '<i class="fas fa-check-circle"></i> All plants loaded!';
+            container.after(message);
+            setTimeout(() => message.remove(), 3000);
+        });
+    }
+    
+    // Enter key press for search
+    const searchBox = document.getElementById("searchBox");
+    if (searchBox) {
+        searchBox.addEventListener("keyup", function(e) {
+            if (e.key === 'Enter') {
+                searchPlants();
+            } else {
+                searchPlants();
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
